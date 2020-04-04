@@ -2506,3 +2506,13 @@ footer.site-footer {
     right: 20px !important; }
 
 /*# sourceMappingURL=style.css.map */
+
+.router-link-active {
+  background-color: red;
+  color: red !important;
+
+}
+
+.ca {
+  color: red !important;
+}

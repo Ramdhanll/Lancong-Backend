@@ -5,23 +5,34 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { Form, HasError, AlertError } from 'vform'
 require('./bootstrap');
 window.Vue = require('vue');
+window.Form = Form;
 
-/**
- * Vue Router
- */
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
 
 Vue.use(VueRouter)
 const routes = [
     { path: '/foo', component: require('./components/ExampleComponent.vue').default },
-    { path: '/dashboard', component: require('./components/Dashboard.vue').default },
+    { path: '/paket', component: require('./components/PaketTravel.vue').default },
+    { path: '/dashboard', component: require('./components/Dashboard.vue').default  },
+    { path: '/gallery', component: require('./components/GalleryTravel.vue').default },
+    { path: '/transaksi', component: require('./components/TransaksiTravel.vue').default },
 ]
 
 const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
 })
+/**
+ * Vue Router
+ */
+
+
+
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -34,7 +45,6 @@ const router = new VueRouter({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
