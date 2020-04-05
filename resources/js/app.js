@@ -6,13 +6,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { Form, HasError, AlertError } from 'vform'
+import VueProgressBar from 'vue-progressbar'
+import Swal from 'sweetalert2'
 require('./bootstrap');
-window.Vue = require('vue');
-window.Form = Form;
 
+// Vform
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+// Vue Router
 Vue.use(VueRouter)
 const routes = [
     { path: '/foo', component: require('./components/ExampleComponent.vue').default },
@@ -26,11 +28,42 @@ const router = new VueRouter({
     mode: 'history',
     routes // short for `routes: routes`
 })
-/**
- * Vue Router
- */
 
+// Vue progressbar
+const options = {
+    color: '#bffaf3',
+    failedColor: '#874b4b',
+    thickness: '3px',
+    transition: {
+    speed: '0.2s',
+    opacity: '0.6s',
+    termination: 300
+    },
+    autoRevert: true,
+    location: 'top',
+    inverse: false
+}
+Vue.use(VueProgressBar, options)
 
+// Swal
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    onOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
+
+// Global Variable
+window.Vue = require('vue');
+window.Form = Form;
+window.Fire = new Vue();
+window.Swal = Swal;
+window.Toast = Toast;
 
 
 

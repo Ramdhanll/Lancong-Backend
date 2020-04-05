@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('admin', 'AdminController');
+Route::resource('travelPaket', 'TravelPackageController');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' ); // this for route in vue-route | 

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\TravelPackage;
 use Illuminate\Support\Str;
-class AdminController extends Controller
+use App\Http\Requests\TravelPackageRequest;
+class TravelPackageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,16 +34,17 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TravelPackageRequest $request)
     {
+        $validated = $request->validated();
+
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->title);
         
         TravelPackage::create($data);
 
-        // return response($data);
-        return ['message' => 'successfuly'];
+        return ['Message' => 'Successfully'];
     }
 
     /**
@@ -87,6 +89,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        TravelPackage::destroy($id);
+        return ['Message' => 'Deleted successfully'];
     }
 }
