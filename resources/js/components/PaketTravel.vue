@@ -7,7 +7,7 @@
                   <div class="card">
                       <div class="card-body">
                           <div>
-                            <h4 class="box-title">Paket Travel <i class="ml-2 btn btn-primary ti-plus" @click="addNew"></i> </h4>
+                            <h4 class="box-title">Paket Travel <i class="ml-2 btn btn-primary ti-plus" @click="addModal"></i> </h4>
                           </div>
                       </div>
                       <div class="card-body--">
@@ -33,7 +33,7 @@
                                         <td>{{ travelPackage.departure_date }}</td>
                                         <td>{{ travelPackage.duration }}</td>
                                         <td>
-                                          <button class="btn btn-warning"> <i class="ti-pencil-alt"></i> </button>
+                                          <button class="btn btn-warning" @click="editModal(travelPackage)"> <i class="ti-pencil-alt"></i> </button>
                                           <button class="btn btn-danger" @click="removePaket(travelPackage.id)"> <i class="ti-trash"></i> </button>
                                         </td>
                                       </tr>
@@ -48,17 +48,17 @@
       <!-- /.orders -->
 
       <!-- Modal -->
-      <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+      <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="addNewLabel">{{modalTitle}}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="modalLabel">{{ editMode ? 'Edit Paket Travel' : 'Tambah Paket Travel'}}</h5>
+              <button type="button" class="close btnClose" data-dismiss="modal" aria-label="Close" >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <form action="">
+              <form @submit.prevent="editMode ? updatePaket() : createPaket()">
                 <div class="form-group">
                   <label for="title">Title</label>
                   <input type="text" v-model="form.title"
@@ -128,12 +128,14 @@
                     :class="{ 'is-invalid': form.errors.has('price') }">
                     <has-error :form="form" field="price"></has-error>
                 </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button v-show="!editMode" type="submit" class="btn btn-primary">Save</button>
+                <button v-show="editMode" type="submit" class="btn btn-success">Update</button>
+              </div>
               </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button @click.prevent="createPaket" type="button" class="btn btn-primary">Save</button>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -145,6 +147,7 @@
       data(){
         return {
           form : new Form({
+            id: '',
             title: '',
             location: '',
             about: '',
@@ -156,9 +159,10 @@
             type: '',
             price: '',
           }),
-          modalTitle : '',
+          // modalTitle : '',
           travelPackages : [],
-          errors: []
+          errors: [],
+          editMode : false,
         }
       },
       methods: {
@@ -167,7 +171,7 @@
           this.form.post('travelPaket')
             .then((data) => {
               Fire.$emit('afterCRUD');
-              $('#addNew').modal('hide');
+              $('#modal').modal('hide');
               this.form.reset();
               this.$Progress.finish();
               Toast.fire({
@@ -183,9 +187,37 @@
               })
             });
         },
-        addNew(){
-          this.modalTitle = 'Tambah Paket Travel';
-          $('#addNew').modal('show');
+        addModal(){
+          this.editMode = false;
+          this.form.reset();
+          $('#modal').modal('show');
+        },
+        editModal(travelPackage){
+          this.editMode = true;
+          this.form.reset();
+          this.form.fill(travelPackage);
+          $('#modal').modal('show');
+        },
+        updatePaket(){
+          this.$Progress.start();
+          this.form.put(`travelPaket/${this.form.id}`)
+            .then((data) => {
+              Fire.$emit('afterCRUD');
+              $('#modal').modal('hide');
+              this.form.reset();
+              this.$Progress.finish();
+              Toast.fire({
+                icon: 'success',
+                title: 'travel package was updated'
+              })
+            })
+            .catch((err) => {
+              this.$Progress.fail();
+              Toast.fire({
+                icon: 'error',
+                title: 'travel package failed updated'
+              })
+            });
         },
         loadPaket(){
           axios.get('travelPaket')
@@ -246,5 +278,12 @@
 <style>
 .btn-tambah {
   margin-top: -30px;
+}
+
+.btnClose {
+  position: relative;
+  top: -20px;
+  background-color: red;
+  color: red;
 }
 </style>

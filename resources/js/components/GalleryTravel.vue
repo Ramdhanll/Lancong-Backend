@@ -23,14 +23,13 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td class="serial">1.</td>
-                                                    <td class="avatar">
-                                                        <div class="round-img">
-                                                            <a href="#"><img class="rounded-circle" src="images/avatar/1.jpg" alt=""></a>
-                                                        </div>
+                                                    <td>1.</td>
+                                                    <td></td>
+                                                    <td> #5469 </td>
+                                                    <td>
+                                                        <button class="btn btn-warning"> <i class="ti-pencil-alt"></i> </button>
+                                                        <button class="btn btn-danger"> <i class="ti-trash"></i> </button>
                                                     </td>
-                                                    <td> #5469 </td>
-                                                    <td> #5469 </td>
                                                 </tr>
                                             </tbody>
                                         </table>

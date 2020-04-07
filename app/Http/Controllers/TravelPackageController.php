@@ -76,9 +76,17 @@ class TravelPackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TravelPackageRequest $request, $id)
     {
-        //
+        $data = $request->all();
+        $data['slug'] = Str::slug($request->title);
+
+        $travelPackage = TravelPackage::find($id);
+
+        $travelPackage->update($data);
+
+        return ['Message' => 'Successfully'];
+
     }
 
     /**
