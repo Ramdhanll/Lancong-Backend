@@ -2222,9 +2222,116 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  data: function data() {
+    return {
+      form: new Form({
+        travel_packages_id: '',
+        image: ''
+      }),
+      editMode: false,
+      previewPict: null
+    };
+  },
+  methods: {
+    addModal: function addModal() {
+      this.editMode = false;
+      this.form.reset();
+      $('#modal').modal('show');
+    },
+    editModal: function editModal(travelPackage) {
+      this.editMode = true;
+      this.form.reset();
+      this.form.fill(travelPackage);
+      $('#modal').modal('show');
+    },
+    prepareImage: function prepareImage(e) {
+      var _this = this;
+
+      var image = e.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(image);
+
+      reader.onload = function (e) {
+        _this.previewPict = e.target.result;
+        _this.form.image = e.target.result;
+      };
+    },
+    createGallery: function createGallery() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.post('travelGallery').then(function (data) {
+        Fire.$emit('afterCRUD');
+        $('#modal').modal('hide');
+
+        _this2.form.reset();
+
+        _this2.$Progress.finish();
+
+        Toast.fire({
+          icon: 'success',
+          title: 'travel package was created'
+        });
+      })["catch"](function (err) {
+        _this2.$Progress.fail();
+
+        Toast.fire({
+          icon: 'error',
+          title: 'travel package failed created'
+        });
+      });
+    }
+  },
+  created: function created() {
+    var _this3 = this;
+
+    this.loadPaket();
+    Fire.$on('afterCRUD', function () {
+      return _this3.loadPaket();
+    });
   }
 });
 
@@ -2401,7 +2508,6 @@ __webpack_require__.r(__webpack_exports__);
       }),
       // modalTitle : '',
       travelPackages: [],
-      errors: [],
       editMode: false
     };
   },
@@ -43269,62 +43375,275 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "orders" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", [
+                _c("h4", { staticClass: "box-title" }, [
+                  _vm._v("Gallery "),
+                  _c("i", {
+                    staticClass: "ml-2 btn btn-primary ti-plus",
+                    on: { click: _vm.addModal }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "modalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-lg modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  { staticClass: "modal-title", attrs: { id: "modalLabel" } },
+                  [
+                    _vm._v(
+                      _vm._s(
+                        _vm.editMode
+                          ? "Edit Gallery Travel"
+                          : "Tambah Gallery Travel"
+                      )
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(1)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.editMode ? _vm.updateGallery() : _vm.createGallery()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "travel_packages_id" } }, [
+                          _vm._v("Gallery Travel")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.travel_packages_id,
+                                expression: "form.travel_packages_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has(
+                                "travel_packages_id"
+                              )
+                            },
+                            attrs: { name: "travel_packages_id", id: "" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.$set(
+                                  _vm.form,
+                                  "travel_packages_id",
+                                  $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "a" } }, [
+                              _vm._v("A")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "b" } }, [
+                              _vm._v("B")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "c" } }, [
+                              _vm._v("C")
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "travel_packages_id" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
+                        _c("label", { attrs: { for: "image" } }, [
+                          _vm._v("Image")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control-file",
+                          class: {
+                            "is-invalid": _vm.form.errors.has(
+                              "travel_packages_id"
+                            )
+                          },
+                          attrs: { type: "file", name: "image", id: "image" },
+                          on: { change: _vm.prepareImage }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "image" }
+                        }),
+                        _vm._v(" "),
+                        _c("img", {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.previewPict,
+                              expression: "previewPict"
+                            }
+                          ],
+                          attrs: { src: _vm.previewPict, alt: "" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "modal-footer" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-secondary",
+                          attrs: { type: "button", "data-dismiss": "modal" }
+                        },
+                        [_vm._v("Close")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.editMode,
+                              expression: "!editMode"
+                            }
+                          ],
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Save")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.editMode,
+                              expression: "editMode"
+                            }
+                          ],
+                          staticClass: "btn btn-success h-100",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Update")]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "orders" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-xl-12" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", [
-                  _c("h4", { staticClass: "box-title" }, [
-                    _vm._v("Gallery "),
-                    _c("i", { staticClass: "ml-2 btn btn-primary ti-plus" })
-                  ])
-                ])
-              ]),
+    return _c("div", { staticClass: "card-body--" }, [
+      _c("div", { staticClass: "table-stats order-table ov-h" }, [
+        _c("table", { staticClass: "table " }, [
+          _c("thead", [
+            _c("tr", [
+              _c("th", { staticClass: "serial" }, [_vm._v("ID")]),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body--" }, [
-                _c("div", { staticClass: "table-stats order-table ov-h" }, [
-                  _c("table", { staticClass: "table " }, [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", { staticClass: "serial" }, [_vm._v("ID")]),
-                        _vm._v(" "),
-                        _c("th", { staticClass: "avatar" }, [_vm._v("Travel")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Gambar")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Action")])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("tbody", [
-                      _c("tr", [
-                        _c("td", [_vm._v("1.")]),
-                        _vm._v(" "),
-                        _c("td"),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" #5469 ")]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("button", { staticClass: "btn btn-warning" }, [
-                            _c("i", { staticClass: "ti-pencil-alt" })
-                          ]),
-                          _vm._v(" "),
-                          _c("button", { staticClass: "btn btn-danger" }, [
-                            _c("i", { staticClass: "ti-trash" })
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
+              _c("th", { staticClass: "avatar" }, [_vm._v("Travel")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Gambar")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Action")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v("1.")]),
+              _vm._v(" "),
+              _c("td"),
+              _vm._v(" "),
+              _c("td", [_vm._v(" #54692 ")]),
+              _vm._v(" "),
+              _c("td", [
+                _c("button", { staticClass: "btn btn-warning" }, [
+                  _c("i", { staticClass: "ti-pencil-alt" })
+                ]),
+                _vm._v(" "),
+                _c("button", { staticClass: "btn btn-danger" }, [
+                  _c("i", { staticClass: "ti-trash" })
                 ])
               ])
             ])
@@ -43332,6 +43651,23 @@ var staticRenderFns = [
         ])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close btnClose",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true

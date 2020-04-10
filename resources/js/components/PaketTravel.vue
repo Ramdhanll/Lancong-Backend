@@ -161,7 +161,6 @@
           }),
           // modalTitle : '',
           travelPackages : [],
-          errors: [],
           editMode : false,
         }
       },
