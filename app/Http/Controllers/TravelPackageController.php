@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\TravelPackage;
 use Illuminate\Support\Str;
 use App\Http\Requests\TravelPackageRequest;
+
 class TravelPackageController extends Controller
 {
     /**

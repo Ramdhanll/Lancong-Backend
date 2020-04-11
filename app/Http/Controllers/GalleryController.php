@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\TravelPackage;
+use App\Gallery;
+use App\Http\Requests\GalleryRequest;
 
 class GalleryController extends Controller
 {
@@ -13,7 +16,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        //
+        return Gallery::with(['travel_package'])->get();
     }
 
     /**
@@ -32,13 +35,16 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GalleryRequest $request)
     {
         $name = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
         \Image::make($request->image)->save(public_path('images/galleries/'). $name);
 
         $request->merge(['image' => $name]);
-        return $request->all();
+
+        Gallery::create($request->all());
+
+        return ['Message' => 'Successfully'];
     }
 
     /**
@@ -70,9 +76,21 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GalleryRequest $request, $id)
     {
-        //
+        $this->removeImage($id);
+
+        $name = time().'.' . explode('/', explode(':', substr($request->image, 0, strpos($request->image, ';')))[1])[1];
+        \Image::make($request->image)->save(public_path('images/galleries/'). $name);
+        
+        $request->merge(['image' => $name]);
+
+        $data = $request->all();
+
+        $Gallery = Gallery::find($id);
+        $Gallery->update($data);
+
+        return response('Success', 200);
     }
 
     /**
@@ -83,6 +101,21 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->removeImage($id);
+        Gallery::destroy($id);
+        return response('Success', 200);
+    }
+
+    public function getTravel(){
+        return TravelPackage::select('id','title')->get();
+    }
+
+    public function removeImage($id){
+        $old_data = Gallery::findOrFail($id);
+        $beforeImage = public_path('images/galleries/') . $old_data->image;
+        
+        if (file_exists($beforeImage)){
+            @unlink($beforeImage);
+        }
     }
 }

@@ -199,7 +199,7 @@
         },
         updatePaket(){
           this.$Progress.start();
-          this.form.put(`travelPaket/${this.form.id}`)
+          this.form.put(`travelPaket/${this.form.travel_packages_id}`)
             .then((data) => {
               Fire.$emit('afterCRUD');
               $('#modal').modal('hide');
@@ -274,7 +274,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 .btn-tambah {
   margin-top: -30px;
 }
@@ -282,7 +282,5 @@
 .btnClose {
   position: relative;
   top: -20px;
-  background-color: red;
-  color: red;
 }
 </style>
