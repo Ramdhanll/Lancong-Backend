@@ -14,9 +14,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getPopular() 
     {
-        return TravelPackage::with(['galleries'])->take(4)->get();
+        $data = TravelPackage::with(['galleries'])->take(4)->get();
+        return response()->json($data, 200);
     }
 
     /**
