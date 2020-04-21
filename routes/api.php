@@ -27,3 +27,4 @@ use Illuminate\Support\Facades\Route;
     Route::post('/register','AuthController@register');    
     Route::get('/getPopular','API\HomeController@getPopular');
 
+	Route::get('/getDetail/{slug}','API\DetailController@getDetail');
