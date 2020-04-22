@@ -13,5 +13,6 @@ class DetailController extends Controller
     			->firstOrFail();
 
     	return response()->json($item, 200);
+    	
     }
 }

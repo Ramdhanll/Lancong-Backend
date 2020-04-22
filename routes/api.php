@@ -21,10 +21,13 @@ use Illuminate\Support\Facades\Route;
             return $request->user();
         });
         Route::post('/logout','AuthController@logout');
+        Route::get('/getDetail/{slug}','API\DetailController@getDetail');
+
     });
 
     Route::post('/login','AuthController@login');
     Route::post('/register','AuthController@register');    
     Route::get('/getPopular','API\HomeController@getPopular');
 
-	Route::get('/getDetail/{slug}','API\DetailController@getDetail');
+	
+	Route::post('/checkout_process/{id}','API\CheckoutController@checkout_process');
