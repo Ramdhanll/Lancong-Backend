@@ -15,6 +15,15 @@ use Illuminate\Support\Carbon;
 
 class CheckoutController extends Controller
 {
+    public function getCheckout(Request $request) {
+        $item   = Transaction::with([
+            'details','travel_package','user' 
+        ])->findOrFail($request->id);
+
+        return response()->json($item, 200);
+    }
+
+
     public function checkout_process (Request $request, $token) {
     	$id = $request->id;
 		$response = Http::withHeaders([
@@ -46,9 +55,8 @@ class CheckoutController extends Controller
             'doe_passport'      =>  Carbon::now()->addYears(5)
         ]);
 
-        return response()->json('Successfully', 200);
+        return response()->json( ['transaction_id' => $transaction->id], 200);
 
     	// return $travel_packages;
-
     }
 }

@@ -20,4 +20,8 @@ class TravelPackage extends Model
     {
         return $this->hasMany('App\Gallery','travel_packages_id','id');
     }
+
+    public function transaction() {
+        return $this->hasMany('App\Transaction', 'id', 'travel_packages_id');
+    }
 }
