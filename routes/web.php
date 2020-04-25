@@ -25,9 +25,10 @@ Auth::routes();
 Route::middleware(['auth','admin'])->group(function () {
    Route::resources([
 	    'travelPaket' => 'TravelPackageController',
-	    'travelGallery' => 'GalleryController'
+	    'travelGallery' => 'GalleryController',
+	    'travelTransaction' => 'TransactionController'
 	]);
-   Route::get('getTravel', 'GalleryController@getTravel');
+    Route::get('getTravel', 'GalleryController@getTravel');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' ); // this for route in vue-route | 
 });

@@ -25,14 +25,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1.</td>
-                                                    <td>asd</td>
-                                                    <td> #5469 </td>
-                                                    <td> #5469 </td>
-                                                    <td> #5469 </td>
-                                                    <td> #5469 </td>
-                                                    <td> #5469 </td>
+                                                <tr v-for="(item, index) in travelTransaction" :key="index">
+                                                    <td>{{ index + 1 }}</td>
+                                                    <td>{{ item.travel_package.title }}</td>
+                                                    <td> {{ item.user.name }} </td>
+                                                    <td> {{ item.additional_visa ? 'Active' : 'In Active' }} </td>
+                                                    <td> {{ item.transaction_total }} </td>
+                                                    <td> {{ item.transaction_status }} </td>
+                                                    <td> 
+                                                        <button class="btn btn-warning"> <i class="ti-eye"></i> </button>
+                                          <button class="btn btn-danger"> <i class="ti-trash"></i> </button>
+                                                    </td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -49,9 +53,30 @@
 
 <script>
     export default {
+        data() {
+            return {
+                travelTransaction : [],
+            }
+        },
+        methods : {
+            loadTransaction(){
+              axios.get('travelTransaction')
+                .then((data) => {
+                  this.travelTransaction = data.data;
+                  this.$Progress.finish();
+                })
+                .catch((data) => {
+                    console.log(data);
+                  this.$Progress.fail()
+                })
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
-        }
+            this.$Progress.start();
+        },
+        created() {
+            this.loadTransaction();
+        },
     }
 </script>
 

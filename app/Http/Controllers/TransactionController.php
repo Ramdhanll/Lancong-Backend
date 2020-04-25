@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Transaction;
 class TransactionController extends Controller
 {
     /**
@@ -13,7 +13,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $item = Transaction::with(['details','travel_package','user'])->get();
+        return response()->json($item, 200);
     }
 
     /**

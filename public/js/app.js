@@ -2127,9 +2127,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -2160,9 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -2772,9 +2768,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      travelTransaction: []
+    };
+  },
+  methods: {
+    loadTransaction: function loadTransaction() {
+      var _this = this;
+
+      axios.get('travelTransaction').then(function (data) {
+        _this.travelTransaction = data.data;
+
+        _this.$Progress.finish();
+      })["catch"](function (data) {
+        console.log(data);
+
+        _this.$Progress.fail();
+      });
+    }
+  },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    this.$Progress.start();
+  },
+  created: function created() {
+    this.loadTransaction();
   }
 });
 
@@ -44533,68 +44556,104 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "orders" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-xl-12" }, [
+          _c("div", { staticClass: "card" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body--" }, [
+              _c("div", { staticClass: "table-stats order-table ov-h" }, [
+                _c("table", { staticClass: "table " }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.travelTransaction, function(item, index) {
+                      return _c("tr", { key: index }, [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.travel_package.title))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(" " + _vm._s(item.user.name) + " ")]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            " " +
+                              _vm._s(
+                                item.additional_visa ? "Active" : "In Active"
+                              ) +
+                              " "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(" " + _vm._s(item.transaction_total) + " ")
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(" " + _vm._s(item.transaction_status) + " ")
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(2, true)
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "orders" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-xl-12" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", [
-                  _c("h4", { staticClass: "box-title" }, [_vm._v("Transaksi ")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-body--" }, [
-                _c("div", { staticClass: "table-stats order-table ov-h" }, [
-                  _c("table", { staticClass: "table " }, [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", [_vm._v("ID")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Travel")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("User")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Visa")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Total")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Status")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Action")])
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("tbody", [
-                      _c("tr", [
-                        _c("td", [_vm._v("1.")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v("asd")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" #5469 ")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" #5469 ")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" #5469 ")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" #5469 ")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(" #5469 ")])
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "card-body" }, [
+      _c("div", [
+        _c("h4", { staticClass: "box-title" }, [_vm._v("Transaksi ")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Travel")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("User")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Visa")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-warning" }, [
+        _c("i", { staticClass: "ti-eye" })
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-danger" }, [
+        _c("i", { staticClass: "ti-trash" })
       ])
     ])
   }
@@ -60178,14 +60237,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************************************!*\
   !*** ./resources/js/components/TransaksiTravel.vue ***!
   \*****************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TransaksiTravel_vue_vue_type_template_id_9fcda172___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TransaksiTravel.vue?vue&type=template&id=9fcda172& */ "./resources/js/components/TransaksiTravel.vue?vue&type=template&id=9fcda172&");
 /* harmony import */ var _TransaksiTravel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TransaksiTravel.vue?vue&type=script&lang=js& */ "./resources/js/components/TransaksiTravel.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _TransaksiTravel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TransaksiTravel.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/TransaksiTravel.vue?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _TransaksiTravel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _TransaksiTravel_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _TransaksiTravel_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TransaksiTravel.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/TransaksiTravel.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -60217,7 +60277,7 @@ component.options.__file = "resources/js/components/TransaksiTravel.vue"
 /*!******************************************************************************!*\
   !*** ./resources/js/components/TransaksiTravel.vue?vue&type=script&lang=js& ***!
   \******************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
