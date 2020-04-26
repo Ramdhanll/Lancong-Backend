@@ -17,11 +17,12 @@ Vue.component(AlertError.name, AlertError)
 // Vue Router
 Vue.use(VueRouter)
 const routes = [
-    { path: '/foo', component: require('./components/ExampleComponent.vue').default },
-    { path: '/paket', component: require('./components/PaketTravel.vue').default },
     { path: '/dashboard', component: require('./components/Dashboard.vue').default  },
+    { path: '/paket', component: require('./components/PaketTravel.vue').default },
     { path: '/gallery', component: require('./components/GalleryTravel.vue').default },
     { path: '/transaksi', component: require('./components/TransaksiTravel.vue').default },
+    { path: '/transaksi/detail/:id', component: require('./components/TransaksiDetail.vue').default },
+    { path: '/a', component: require('./components/TransaksiDetail.vue').default },
 ]
 
 const router = new VueRouter({

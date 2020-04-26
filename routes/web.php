@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/page-not-found', function () {
     return view('page-not-found');
@@ -28,9 +28,11 @@ Route::middleware(['auth','admin'])->group(function () {
 	    'travelGallery' => 'GalleryController',
 	    'travelTransaction' => 'TransactionController'
 	]);
-    Route::get('getTravel', 'GalleryController@getTravel');
+	Route::get('getTravel', 'GalleryController@getTravel');
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' ); // this for route in vue-route | 
+	Route::get('{transaksi}/{detail}/{id}','HomeController@index')->where( 'path', '([A-z]+)?' ); // this for route in vue-route | 
+	Route::get('getTransaksiDetail/{id}','TransaksiDetail@getTransaksiDetail');
 });
 // Route::get('{path}','HomeController@index')->where( 'path', '([A-z]+)?' ); // this for route in vue-route | 
 

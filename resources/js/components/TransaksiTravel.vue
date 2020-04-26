@@ -33,8 +33,8 @@
                                                     <td> {{ item.transaction_total }} </td>
                                                     <td> {{ item.transaction_status }} </td>
                                                     <td> 
-                                                        <button class="btn btn-warning"> <i class="ti-eye"></i> </button>
-                                          <button class="btn btn-danger"> <i class="ti-trash"></i> </button>
+                                                        <router-link :to="'/transaksi/detail/' + item.id"><button class="btn btn-warning"> <i class="ti-eye"></i> </button></router-link>
+                                                        <button class="btn btn-danger"> <i class="ti-trash"></i> </button>
                                                     </td>
                                                     
                                                 </tr>
