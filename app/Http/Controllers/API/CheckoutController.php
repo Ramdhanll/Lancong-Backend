@@ -59,4 +59,41 @@ class CheckoutController extends Controller
 
     	// return $travel_packages;
     }
+
+    public function addMember(Request $request) {
+        $data = $request->all();
+        TransactionDetail::create($data['data']);
+
+
+        $transaction = Transaction::with(['travel_package'])->find($data['data']['transactions_id']);
+
+        if ($data['data']['is_visa']) {
+            $transaction->transaction_total += 190;
+            $transaction->additional_visa += 190;
+        }
+
+        $transaction->transaction_total += $transaction->travel_package->price;
+
+        $transaction->save();
+
+        return response()->json('Succesfully', 200);
+    }
+
+    public function removeMember(Request $request, $id) {
+        $item   = TransactionDetail::findOrFail($id);
+
+        $transaction = Transaction::with(['details','travel_package'])
+            ->findOrFail($item->transactions_id);
+
+        if ($item->is_visa) {
+            $transaction->transaction_total -= 190;
+            $transaction->additional_visa -= 190;
+        }
+
+        $transaction->transaction_total -= $transaction->travel_package->price;
+        $transaction->save();
+        $item->delete();
+
+        return response()->json('successfully', 200);
+    }
 }

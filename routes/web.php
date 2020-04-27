@@ -26,7 +26,8 @@ Route::middleware(['auth','admin'])->group(function () {
    Route::resources([
 	    'travelPaket' => 'TravelPackageController',
 	    'travelGallery' => 'GalleryController',
-	    'travelTransaction' => 'TransactionController'
+	    'travelTransaction' => 'TransactionController',
+	    'travelDetail'		=> 'TransaksiDetail'
 	]);
 	Route::get('getTravel', 'GalleryController@getTravel');
 	Route::get('/home', 'HomeController@index')->name('home');

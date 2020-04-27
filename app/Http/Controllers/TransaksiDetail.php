@@ -13,6 +13,12 @@ class TransaksiDetail extends Controller
                             ->where('id', $id)
                             ->get();
         return response()->json($transaksiDetail, 200);
+    }
 
+    public function destroy($id)
+    {
+        Transaction::destroy($id);
+
+        return ['Message' => 'Deleted successfully'];
     }
 }

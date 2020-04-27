@@ -34,7 +34,7 @@
                                                     <td> {{ item.transaction_status }} </td>
                                                     <td> 
                                                         <router-link :to="'/transaksi/detail/' + item.id"><button class="btn btn-warning"> <i class="ti-eye"></i> </button></router-link>
-                                                        <button class="btn btn-danger"> <i class="ti-trash"></i> </button>
+                                                        <button class="btn btn-danger" @click="deleteTransaksi(item.id)"> <i class="ti-trash"></i> </button>
                                                     </td>
                                                     
                                                 </tr>
@@ -69,6 +69,40 @@
                     console.log(data);
                   this.$Progress.fail()
                 })
+            },
+            deleteTransaksi(id) {
+               Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to revert this!",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                  if (result.value) {
+                    this.$Progress.start();
+                    axios.delete(`travelDetail/${id}`)
+                      .then(() => {
+                        Fire.$emit('afterCRUD');
+                        Swal.fire(
+                          'Deleted!',
+                          'Your file has been deleted.',
+                          'success'
+                        )
+                        this.$Progress.finish();
+                      })
+                      .catch(() => {
+                        Swal.fire(
+                          'Failed!',
+                          'Your file failed to delete.',
+                          'error'
+                        )
+                        this.$Progress.fail();
+                      })
+            
+                  }
+                })
             }
         },
         mounted() {
@@ -76,6 +110,7 @@
         },
         created() {
             this.loadTransaction();
+            Fire.$on('afterCRUD', () => {this.loadTransaction()});
         },
     }
 </script>

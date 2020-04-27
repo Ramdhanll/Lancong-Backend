@@ -31,5 +31,6 @@ use Illuminate\Support\Facades\Route;
 
 	
 	Route::post('/checkout_process/{id}','API\CheckoutController@checkout_process');
-
     Route::post('/getCheckout','API\CheckoutController@getCheckout');
+    Route::post('/addMember', 'API\CheckoutController@addMember');
+    Route::delete('/removeMember/{id}', 'API\CheckoutController@removeMember');

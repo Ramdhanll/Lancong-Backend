@@ -2862,13 +2862,46 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$Progress.fail();
       });
+    },
+    deleteTransaksi: function deleteTransaksi(id) {
+      var _this2 = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          _this2.$Progress.start();
+
+          axios["delete"]("travelDetail/".concat(id)).then(function () {
+            Fire.$emit('afterCRUD');
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+
+            _this2.$Progress.finish();
+          })["catch"](function () {
+            Swal.fire('Failed!', 'Your file failed to delete.', 'error');
+
+            _this2.$Progress.fail();
+          });
+        }
+      });
     }
   },
   mounted: function mounted() {
     this.$Progress.start();
   },
   created: function created() {
+    var _this3 = this;
+
     this.loadTransaction();
+    Fire.$on('afterCRUD', function () {
+      _this3.loadTransaction();
+    });
   }
 });
 
@@ -44843,7 +44876,18 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm._m(2, true)
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteTransaksi(item.id)
+                                  }
+                                }
+                              },
+                              [_c("i", { staticClass: "ti-trash" })]
+                            )
                           ],
                           1
                         )
@@ -44891,14 +44935,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "btn btn-danger" }, [
-      _c("i", { staticClass: "ti-trash" })
     ])
   }
 ]
